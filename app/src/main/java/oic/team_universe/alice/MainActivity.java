@@ -11,7 +11,7 @@ public class MainActivity extends Activity  {
     public void onCreate(Bundle savedInstanceState){
         Log.d("MainActivty", "MainActivty");
         super.onCreate(savedInstanceState);
-        setContentView(new aliceSurfaceView(this));
+        setContentView(new AliceSurfaceView(this));
     }
 
 }

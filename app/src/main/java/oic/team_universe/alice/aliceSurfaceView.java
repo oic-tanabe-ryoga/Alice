@@ -9,7 +9,7 @@ import android.util.Log;
 import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
-public class aliceSurfaceView extends SurfaceView implements SurfaceHolder.Callback,Runnable {
+public class AliceSurfaceView extends SurfaceView implements SurfaceHolder.Callback,Runnable {
 
     private SurfaceHolder holder = null;
     private Thread thread = null;
@@ -17,7 +17,7 @@ public class aliceSurfaceView extends SurfaceView implements SurfaceHolder.Callb
     private int nRoutineNo =1;
 
     //コンストラクタ
-    public aliceSurfaceView(Context context) {
+    public AliceSurfaceView(Context context) {
         super(context);
         //リソースオブジェクト作成
         Resources res =this.getContext().getResources();
@@ -62,42 +62,19 @@ public class aliceSurfaceView extends SurfaceView implements SurfaceHolder.Callb
                 //Todo 描画処理
                 doDraw();
             }
-
     }
 
     private void doMove(){
         Log.d("SurfaceMove", "SurfaceMove");
-       //Todo ゲームマネージャーに移動
-       /* switch (nRoutineNo){
-            case 1://初期化
-                break;
-            case 2://タイトル
-                break;
-            case 3://セレクト
-                break;
-            case 4://ゲーム
-                break;
-            case 5://ゲームオーバー
-                break;
-            case 6://コンティニュー
-                break;
-            case 7://ゲームクリア
-                break;
-            default:
-                Log.d("SurfaceViewE","重大なエラーが発生しました");
-                break;
-        }*/
-
-        
+        Game_Mgr.state();
     }
 
     private void doDraw(){
         //画面をロック
         Canvas canvas = getHolder().lockCanvas();
+        Log.d("SurfaceDraw", "SurfaceDraw");//Todo テストログ
 
-        Log.d("SurfaceDraw", "SurfaceDraw");//ログ
-
-        //Todo　テスト用
+        //Todo テスト用
         canvas.save(); //状態を保存
         Paint paint = new Paint();
         canvas.rotate(45.0f);
