@@ -10,11 +10,11 @@ import android.view.SurfaceHolder;
 import android.view.SurfaceView;
 
 public class AliceSurfaceView extends SurfaceView implements SurfaceHolder.Callback,Runnable {
-
+    private Game_Mgr game_mgr = new Game_Mgr();
     private SurfaceHolder holder = null;
     private Thread thread = null;
     private boolean isAttached = true;
-    private int nRoutineNo =1;
+    //private int nRoutineNo = 1;
 
     //コンストラクタ
     public AliceSurfaceView(Context context) {
@@ -27,15 +27,12 @@ public class AliceSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 
     }
 
-
-    //SurfaceView変更時
-    @Override
+    @Override//SurfaceView変換時
     public void surfaceChanged(SurfaceHolder holder, int format, int width, int height) {
         Log.d("SurfaceChanged", "SurfaceChanged");
     }
 
-    //SurfaceView生成時
-    @Override
+    @Override//SurfaceView生成時
     public void surfaceCreated(SurfaceHolder holder) {
         Log.d("SurfaceCreated", "SurfaceCreated");
         this.holder=holder;
@@ -43,16 +40,14 @@ public class AliceSurfaceView extends SurfaceView implements SurfaceHolder.Callb
         thread.start();
     }
 
-    //SurfaceView破棄時
-    @Override
+    @Override//SurfaceView破棄時
     public void surfaceDestroyed(SurfaceHolder holder) {
         Log.d("SurfaceDestroyed", "SurfaceDestroyed");
         isAttached = false;
         thread = null; //スレッドを終了
     }
 
-    //SurfaceView実行時
-    @Override
+    @Override//SurfaceView実行時
     public void run(){
             while(isAttached) {
                 Log.d("SurfaceRun", "SurfaceRun");
@@ -66,9 +61,18 @@ public class AliceSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 
     private void doMove(){
         Log.d("SurfaceMove", "SurfaceMove");
-        Game_Mgr.state();
+        //game_mgr.state();
+        game_mgr.onUpdate();
     }
-
+    /**
+         * Paint paint = new Paint();
+         * canvas.rotate(45.0f);
+         * canvas.drawColor(Color.WHITE);//背景
+         * paint.setColor(Color.BLUE);//文字色
+         * paint.setAntiAlias(true);
+         * paint.setTextSize(24);
+         * canvas.drawText("Hello, World", paint.getTextSize(), 0, paint);
+     *///Drawテスト用
     private void doDraw(){
         //画面をロック
         Canvas canvas = getHolder().lockCanvas();
@@ -76,19 +80,11 @@ public class AliceSurfaceView extends SurfaceView implements SurfaceHolder.Callb
 
         //Todo テスト用
         canvas.save(); //状態を保存
-        Paint paint = new Paint();
-        canvas.rotate(45.0f);
-        canvas.drawColor(Color.WHITE);//背景
-        paint.setColor(Color.BLUE);//文字色
-        paint.setAntiAlias(true);
-        paint.setTextSize(24);
-        canvas.drawText("Hello, World", paint.getTextSize(), 0, paint);
-        canvas.restore(); // 状態を復元
 
+        game_mgr.onDraw(canvas);
+
+        canvas.restore(); // 状態を復元
         //画面のロック解除
         getHolder().unlockCanvasAndPost(canvas);
     }
 }
-
-
-
